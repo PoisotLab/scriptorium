@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400i,700,700i|Open+Sans+Condensed:300,300i|Open+Sans:300,300i,400,400i,600,600i|Vollkorn:400,400i,600,600i&subset=greek,greek-ext');
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400,500|Fira+Sans+Condensed:300,300i,400,400i,500,500i|Fira+Sans:300,300i,400,400i,500,500i&subset=greek,greek-ext');
+
+$font-copy: "Fira Sans";
+$font-code: "Fira Mono";
+$font-head: "Fira Sans Condensed";
+$font-meta: "Fira Sans";
+
+$base-size: 13px;
+$line-height: 1.45;
+
+$primary: rgb(108, 168, 110);
+$secondary: rgb(185, 181, 173);
+
+$h1-size: 130%;
+$h2-size: 115%;
+$h3-size: 110%;
+
+$i-margin: 45mm;
+$o-margin: 15mm;
+$b-margin: 15mm;
+$t-margin: 15mm;
+
+@media print {
+
+  b {
+    font-weight: 600;
+  }
+
+  @page {
+    margin: $t-margin $o-margin $b-margin $i-margin;
+    @bottom-right {
+      content: "p. " counter(page);
+      font-family: $font-meta;
+      color: $secondary;
+      text-align: right;
+      font-size: 60%;
+    }
+  }
+
+  body {
+    font-size: $base-size;
+    font-family: $font-copy, serif;
+  }
+
+  pre, code {
+    font-family: $font-code, monospace;
+    b {
+      font-weight: 700;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-head, sans-serif;
+    font-weight: normal;
+  }
+
+  a {
+    text-decoration: none;
+    color: $primary;
+  }
+
+  article {
+    margin-top: 5em;
+    counter-reset: par;
+    counter-reset: h1;
+    pre {
+      font-size: 90%;
+      margin: -4px -4px;
+      padding: 4px 4px;
+      border-left: 1px solid $secondary;
+      background-color: lighten(#ccc, 18%);
+      &.sourceCode {
+        margin: -4px -4px;
+        padding: 4px 4px;
+        border-left: 1px solid $secondary;
+        background-color: lighten($secondary, 25%);
+      }
+    }
+    h1 {
+      counter-increment: h1;
+      counter-reset: par;
+    }
+    .references {
+      p {
+        &:before {
+          display: none;
+        }
+      }
+    }
+    p {
+      line-height: $line-height;
+      &:before {
+        counter-increment: par;
+        font-family: $font-meta;
+        font-weight: 300;
+        content: "§" counter(h1) " ¶" counter(par);
+        float: right;
+        width: 7mm;
+        margin-right: -13mm;
+        text-align: right;
+        display: inline-block;
+        color: $secondary;
+        font-size: 55%;
+        margin-top: 1mm;
+      }
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: $font-head;
+    font-size: 80%;
+    display: table;
+    td {
+      vertical-align: middle;
+    }
+    th, td {
+      padding: 1.2mm 0.6mm;
+      border-bottom: 1px solid #efefef;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    th {
+      background-color: $primary;
+      color: white;
+      font-weight: normal;
+    }
+  }
+
+  figure {
+    margin: 0 0;
+    min-width: 100%;
+    img {
+      width: 100%;
+    }
+    figcaption {
+      font-size: 90%;
+      font-family: $font-head;
+      span {
+        font-weight: bold;
+        color: $secondary;
+      }
+    }
+  }
+
+  h1 {
+    margin-left: -10mm;
+    color: $secondary;
+    font-size: 150%;
+    margin-top: 3em;
+    margin-bottom: -0.1em;
+  }
+
+  h2 {
+    font-size: 120%;
+    margin-bottom: -0.6em;
+    color: $secondary;
+    font-weight: 300;
+  }
+
+  header {
+    h1 {
+      font-weight: 300;
+      color: $primary;
+      font-size: 250%;
+      width: 115%;
+      margin-left: -30mm;
+      margin-bottom: 2em;
+    }
+    .author {
+      font-family: $font-meta;
+      margin-bottom: 2em;
+      .name {
+        display: inline-block;
+        font-weight: bold;
+      }
+      .email {
+        display: inline-block;
+        float: right;
+        font-family: $font-code;
+        color: $secondary;
+      }
+      .affiliations {
+        display: block;
+        .affiliation {
+          &:before {
+            background-color: $primary;
+            width: 0.5em;
+            height: 0.5em;
+            border-radius: 0.5em;
+            margin-bottom: 1px;
+            content: "";
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+
+  .abstract {
+    margin-left: -35%;
+    background-color: lighten($secondary, 25%);
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 35%;
+    padding-right: 25%;
+    margin-bottom: 2em;
+  }
+
+}

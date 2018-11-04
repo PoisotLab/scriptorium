@@ -1,0 +1,46 @@
+:root {
+  --base-size: 12px;
+  --scaling-factor: 1.2;
+  --line-spacing: 1.6;
+
+  --inner-margin: 40mm;
+  --outer-margin: 20mm;
+  --top-margin: 95mm;
+  --bottom-margin: 15mm;
+}
+
+@media print {
+
+  @page :left {
+    margin: var(--top-margin) 40mm 15mm 20mm;
+  }
+
+  @page :right {
+    margin: 15mm 20mm 15mm 40mm;
+  }
+
+  @page {
+    @top-right{
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 80%;
+    }
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+}
