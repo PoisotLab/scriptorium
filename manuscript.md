@@ -7,21 +7,9 @@ authors:
       affiliations:
         - Université de Montréal
         - QCBS
-    - name: Zachary Belisle
-      email: zachary.belisle@umontreal.ca
-      orcid: 0000-0000-0000-0000
-      affiliations:
-        - Université de Montréal
-abstract: "Networks are a convenient way to represent many interactions among ecological
-entities. The analysis of ecological networks is challenging for two reasons.
-First, there is a plethora of measures that can be applied (and some of them
-measure the same property); second, the implementation of these measures is
-sometimes difficult­.We present `EcologicalNetworks.jl`, a package for the
-*julia* programming language. Using a layered system of types to represent
-several types of ecological networks, this packages offers a solid library of
-basic functions which can be chained together to perform the most common
-analyses of ecological networks."
+abstract: "This is the abstract for the manuscript."
 ---
+
 # Background
 
 The analysis of ecological networks is an increasingly common task in community

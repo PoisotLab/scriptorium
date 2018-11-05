@@ -15,6 +15,7 @@ before_deploy:
   - rm .gitignore
   - rm .travis.yml
   - rm Makefile
+  - rm styles/preprint.css.map
 deploy:
   provider: pages
   github-token: $GITHUB_TOKEN
