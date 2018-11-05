@@ -1,4 +1,4 @@
-ORIG=README.md
+ORIG=manuscript.md
 
 manuscript.pdf: $(ORIG)
 	pandoc $< -o $@ \
