@@ -1,0 +1,196 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i|Cousine:400,400i,700,700i|Tinos:400,400i,700,700i");
+@media print {
+  @page {
+    size: letter;
+    margin: 12mm 70mm 18mm 15mm;
+    @bottom-right {
+      content: "p. " counter(page);
+      font-family: "Arimo";
+      color: #6383ba;
+      text-align: right;
+      font-size: 60%; } }
+  body {
+    font-size: 12px;
+    font-family: "Tinos", serif; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Arimo", sans-serif;
+    font-weight: normal;
+    color: #b9b5ad;
+    page-break-after: avoid; }
+
+  a {
+    text-decoration: none;
+    color: #6ca86e; }
+
+  code {
+    color: #6383ba;
+    font-size: 95%; }
+
+  pre {
+    font-size: 90%;
+    margin: -4px -4px;
+    padding: 4px 4px;
+    border-left: 1px solid #b9b5ad;
+    background-color: white; }
+    pre code {
+      font-family: "Cousine";
+      font-weight: normal;
+      color: #333; }
+    pre.sourceCode {
+      margin: -4px -4px;
+      padding: 4px 4px;
+      border-left: 1px solid #b9b5ad;
+      background-color: #f4f3f2; }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: "Arimo";
+    font-size: 80%;
+    display: table; }
+    table td {
+      vertical-align: middle; }
+    table th, table td {
+      padding: 1.2mm 0.6mm;
+      border-bottom: 1px solid #d0cec9; }
+    table tr:nth-child(even) {
+      background-color: #f8f8f7; }
+    table th {
+      background-color: #dcdad6;
+      font-weight: normal;
+      border-top: 1px solid #d0cec9; }
+
+  figure {
+    margin: 0 0;
+    width: 200mm;
+    overflow: auto;
+    display: table;
+    margin: 1em 0em; }
+    figure img {
+      width: 130mm;
+      float: left; }
+    figure figcaption {
+      font-size: 85%;
+      font-style: italic;
+      text-align: left;
+      font-family: "Arimo";
+      width: 60mm;
+      padding: 0mm 5mm;
+      float: right;
+      overflow: visible;
+      min-height: 5px;
+      z-index: 100; }
+      figure figcaption img {
+        width: auto;
+        float: none;
+        display: inline;
+        max-height: 12px; }
+
+  article {
+    counter-reset: par;
+    counter-reset: h1; }
+    article h1 {
+      counter-increment: h1;
+      counter-reset: par;
+      margin-top: 3em; }
+      article h1:first-child {
+        margin-top: 0em; }
+    article h2 {
+      display: inline;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: -1em;
+      margin-top: 1.2em; }
+    article .references p:before {
+      display: none; }
+    article p {
+      line-height: 1.55;
+      padding-bottom: 0.5em; }
+      article p:before {
+        counter-increment: par;
+        font-family: "Arimo";
+        font-weight: 300;
+        content: "§" counter(h1) " ¶" counter(par);
+        float: left;
+        width: 7mm;
+        margin-left: -11mm;
+        text-align: right;
+        display: inline-block;
+        color: #b9b5ad;
+        font-size: 55%;
+        margin-top: 1mm; }
+
+  header h1 {
+    font-weight: 300;
+    color: #6ca86e;
+    font-size: 250%;
+    width: 115%;
+    margin-bottom: 2em; }
+  header .author {
+    font-family: "Arimo";
+    margin-bottom: 2em; }
+    header .author .name {
+      display: inline-block;
+      font-weight: bold; }
+    header .author .email {
+      display: inline-block;
+      float: right;
+      font-family: "Cousine";
+      color: #6383ba; }
+    header .author .affiliations {
+      display: block; }
+      header .author .affiliations .affiliation:before {
+        background-color: #6ca86e;
+        width: 0.5em;
+        height: 0.5em;
+        border-radius: 0.5em;
+        margin-bottom: 1px;
+        content: "";
+        display: inline-block; }
+
+  .abstract {
+    margin-left: -35%;
+    background-color: #f4f3f2;
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 35%;
+    padding-right: 25%;
+    margin-bottom: 2em;
+    line-height: 1.55; } }
+@media screen {
+  html {
+    background-color: #fcfcfc; }
+
+  body {
+    margin: 0px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 2px #ccc;
+    font-size: 16px; }
+
+  article p {
+    font-size: 18px;
+    font-family: "Tinos";
+    line-height: 1.55; }
+  article figure {
+    width: 840px;
+    margin-left: -20px; }
+    article figure img {
+      max-width: 100%; }
+    article figure figcaption {
+      margin-top: -5px;
+      padding: 20px;
+      background-color: #e8e7e4;
+      font-size: 90%; }
+
+  .abstract {
+    font-weight: bold;
+    text-align: center;
+    padding: 4em 2em;
+    font-size: 90%; } }
+
+/*# sourceMappingURL=preprint.css.map */

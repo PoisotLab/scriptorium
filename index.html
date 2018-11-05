@@ -1,0 +1,432 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The analysis of ecological networks</title>
+
+<style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<link rel="stylesheet" href="styles/preprint.css">
+</head>
+
+<body>
+
+<header>
+
+<h1 class="title">The analysis of ecological networks</h1>
+
+
+
+<div class="author">
+<div class="name">Timothée Poisot</div>
+<div class="email">timothee.poisot@umontreal.ca</div>
+<div class="affiliations">
+<div class="affiliation">
+Université de Montréal
+</div>
+<div class="affiliation">
+QCBS
+</div>
+</div>
+</div>
+
+</header>
+
+<div class="abstract">
+This is the abstract for the manuscript.
+</div>
+
+<p style="page-break-before: always" ></p>
+
+<article>
+<h1 id="background">Background</h1>
+<p>The analysis of ecological networks is an increasingly common task in community ecology and related fields <span class="citation" data-cites="DelmBess18">(Delmas et al. 2018)</span>. Ecological networks provide a compact and tractable representation of interactions between multiple species, populations, or individuals. The methodology to analyse them, grounded in graph theory, scales from small number of species to potentially gigantic graphs of thousands of partners. The structural properties derived from the analysis of these graphs can be mapped onto the ecological properties of the community they depict. Because there is a large number of questions one may seek to address using the formalism of networks <span class="citation" data-cites="PoisStou16">(Poisot et al. 2016b)</span>, there has been an explosion in the diversity of measures offered. As such, it can be difficult to decide on which measure to use, let alone which software implementation to rely on.</p>
+<p>At the same time, the recent years have seen an increase in the type of applications of network theory in ecology. This includes probabilistic graphs <span class="citation" data-cites="PoisCirt16">(Poisot et al. 2016a)</span>, investigation of species functional roles in the network <span class="citation" data-cites="BakeKaar14">(Baker et al. 2014)</span>, comparison of networks across space and time <span class="citation" data-cites="PoisCana12a">(Poisot et al. 2012)</span> and on gradients <span class="citation" data-cites="PellAlbo17">(Pellissier et al. 2017)</span>, to name a few. As the breadth and complexity of analyses applied to ecological networks increases, there is a necessity to homogenize their implementation. To the ecologist wanting to analyse ecological networks, there are a variety of choices; these include <code>enaR</code> <span class="citation" data-cites="BorrLau14">(Borrett &amp; Lau 2014)</span> for food webs, <code>bipartite</code> <span class="citation" data-cites="DormGrub08">(Dormann et al. 2008)</span> and <code>BiMat</code> <span class="citation" data-cites="FlorPois16">(Flores et al. 2016)</span> for bipartite networks, and more general graph-theory libraries such as <code>networkx</code> <span class="citation" data-cites="HagbSchu08">(Hagberg et al. 2008)</span> and <code>igraph</code> <span class="citation" data-cites="CsarNepu06">(Csardi &amp; Nepusz 2006)</span>, which are comprehensive but may lack ecology-specific approaches and measures. Additional packages are even more specific, such as <code>bmotif</code> for bipartite motifs enumeration <span class="citation" data-cites="SimmSwee18">(Simmons et al. 2018)</span>, or <code>pymfinder</code> <span class="citation" data-cites="MoraCirt18">(Mora et al. 2018)</span>. Most of these packages are focused on either food webs or bipartite networks, and therefore do not provide a unified ecosystem for users to develop their analyses in; more general libraries come the closer, but they require a lot of groundwork before they can be effectively used to conduct ecological analyses. There is a gap in the current software offering.</p>
+<p>In this manuscript, we describe <code>EcologicalNetworks</code>, a package for the <em>Julia</em> programming language <span class="citation" data-cites="BezaEdel17">(Bezanson et al. 2017)</span>. <em>Julia</em> is rapidly emerging as a new standard for technical computing, as it offers the ease of writing of traditional interpreted languages (like <em>R</em> or <em>python</em>) with up to <em>C</em>-like performance. More importantly, code performance can be achieved by writing <em>only</em> pure-<em>Julia</em> code, <em>i.e.</em> without having to write the most time-consuming parts in other languages like <em>C</em> or <em>C++</em>. This results in more cohesive, and more maintainable code, to which users can more easily contribute.</p>
+<p>The goal of this package is to provide a general environment to perform analyses of ecological networks. It offers a hierarchy of types to represent ecological networks, and includes common measures to analyse them. This package has been designed to be easily extended, and offers small, single-use function, that can be chained together to build complex analyses. The advantage of this design is that, rather than having to learn the interfaces (and options) of many different packages, the analyses can be seemlessly integrated in a single environment – this solves the problem identified by <span class="citation" data-cites="DelmBess18">Delmas et al. (2018)</span>, namely that software for ecological network research is extremely fragmented. In addition, many measures and analyses of network structure are likely to re-use the same basic components. Consolidating the methodology within a single package makes it easier to build a densely connected codebase. Whenever possible, we have also overloaded methods for the code <em>Julia</em> language, so that the code feels idiomatic. We showcase the usage of <code>EcologicalNetworks</code> through a number of simple applications: null-hypothesis significance testing, network comparison, modularity optimisation, random extinctions, and the prediction of missing interactions.</p>
+<h1 id="methods-and-features">Methods and features</h1>
+<p>Installation instructions for <em>Julia</em> itself are found at <a href="https://julialang.org/downloads/" class="uri">https://julialang.org/downloads/</a> – this manuscript specifically describes version 1.0.0 of <code>EcologicalNetworks.jl</code> (<em>currently unreleased, will be done before publication</em>), which works on the 0.7 and 1.0 releases of <em>Julia</em>. The code is released under the MIT license. Functions in the package are documented through the standard <em>Julia</em> mechanism (<code>?connectance</code>, for example), and a documentation describing the functionalities in the package is available online at <a href="http://poisotlab.io/EcologicalNetworks.jl/latest/" class="uri">http://poisotlab.io/EcologicalNetworks.jl/latest/</a>. <code>EcologicalNetworks.jl</code> can currently be downloaded anonymously its <em>GitHub</em> repository, by first entering the package mode of the <em>julia</em> REPL (<code>]</code>), and typing:</p>
+<pre><code>add https://github.com/PoisotLab/EcologicalNetworks.jl#develop</code></pre>
+<p>The package can then be used with</p>
+<pre><code>using EcologicalNetworks</code></pre>
+<p>In this section, we will list the core functions offered by the package, discuss the type system, and highlight the most important aspects of the user interface. This manuscript has been written so that all examples can be reproduced from scratch.</p>
+<h2 id="overview-of-package-capacities">Overview of package capacities</h2>
+<p>The <code>EcologicalNetworks</code> package offers functions to perform the majority of common ecological networks analyses – we follow the recommendations laid out in <span class="citation" data-cites="DelmBess18">Delmas et al. (2018)</span>. The key functions include species richness (<code>richness</code>); connectance (<code>connectance</code>) and linkage density (<code>linkage_density</code>); degree (<code>degree</code>) and specificity (<code>specificity</code>); null models (<code>null1</code>, <code>null2</code>, <code>null3in</code>, <code>null3out</code>); constrained network permutations (<code>shuffle</code>); random networks (<code>rand</code>); nestedness (<code>η</code> and <code>nodf</code>); shortest path (<code>number_of_paths</code>, <code>shortest_path</code>); centrality measures (<code>centrality_katz</code>, <code>centrality_closeness</code>, <code>centrality_degree</code>); motif counting (<code>find_motif</code>); modularity (<code>Q</code>), realized modularity (<code>Qr</code>), and functions to optimize them (<code>lp</code> and <code>salp</code> for label propagation with or without simulated annealing, <code>brim</code>); β-diversity measures (<code>βs</code>, <code>βos</code>, <code>βwn</code>); trophic level analysis (<code>fractional_trophic_level</code>, <code>trophic_level</code>); complementarity analysis (<code>AJS</code>; <code>EAJS</code>; <code>overlap</code>). These functions use the rich type system to apply the correct method depending on the type of network, and rely on a simple user-interface to let users chain them together (as explained in the next section). This package is <em>not</em> a series of wrappers around functions, that would provide ready-made analyses. Instead, it provides functions which can be chained, to let users develop their own analyses.</p>
+<p>As a side note, <code>EcologicalNetworks.jl</code> does not provides plotting functionalities. These are being developed as part of a companion package, <code>EcologicalNetworksPlots.jl</code>.</p>
+<h2 id="type-system">Type system</h2>
+<p>Networks are divided according to two properties: their partiteness (unipartite and bipartite), and the type of information they contain.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Partiteness</th>
+<th style="text-align: left;">Int. strength</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Interactions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Unipartite</td>
+<td style="text-align: left;">Binary</td>
+<td style="text-align: left;"><code>UnipartiteNetwork</code></td>
+<td style="text-align: left;"><code>AbstractBool</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quantitative</td>
+<td style="text-align: left;"><code>UnipartiteQuantitativeNetwork</code></td>
+<td style="text-align: left;"><code>Number</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Probabilistic</td>
+<td style="text-align: left;"><code>UnipartiteProbabilisticNetwork</code></td>
+<td style="text-align: left;"><code>AbstractFloat</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bipartite</td>
+<td style="text-align: left;">Binary</td>
+<td style="text-align: left;"><code>BipartiteNetwork</code></td>
+<td style="text-align: left;"><code>AbstractBool</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Quantitative</td>
+<td style="text-align: left;"><code>BipartiteQuantitativeNetwork</code></td>
+<td style="text-align: left;"><code>Number</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Probabilistic</td>
+<td style="text-align: left;"><code>BipartiteProbabilisticNetwork</code></td>
+<td style="text-align: left;"><code>AbstractFloat</code></td>
+</tr>
+</tbody>
+</table>
+<p>All of these types share a <code>Matrix</code> field <code>A</code> containing the adjacency matrix, and either one <code>Vector</code> field <code>S</code> (unipartite case) or two <code>Vector</code> fields <code>T</code> and <code>B</code> (bipartite case) containins the species (in the bipartite case, the species are divided between the top layer <code>T</code> and bottom layer <code>B</code>). The species can be represented as <code>String</code> or <code>Symbol</code>, with support for more types anticipated. In addition, there are a number of type unions (@fig:types). The purpose of these types is to help users write functions that target the correct combination of networks.</p>
+<figure>
+<img src="figure1.png" alt="Figure 1: Union types defined by EcologicalNetworks – all networks belong to the AbstractEcologicalNetwork supertype. The ability to target specific combinations of types allows to write the correct methods for multiple classes of networks at once, while being able to specialize them on specific types." id="fig:types" /><figcaption><span>Figure 1:</span> Union types defined by <code>EcologicalNetworks</code> – all networks belong to the <code>AbstractEcologicalNetwork</code> supertype. The ability to target specific combinations of types allows to write the correct methods for multiple classes of networks at once, while being able to specialize them on specific types.</figcaption>
+</figure>
+<p>Fortunately, end-users will almost never need to understand how data are represented within a type – the package is built around a number of high-level interfaces (see the next section) to manipulate and access information about species and interactions. The type system is worth understanding in depth when writing additional functions for which performance is important. But in the context of other analyses, the functions described in the next section should be used.</p>
+<h2 id="interface">Interface</h2>
+<p>There are a number of high-level functions to interact with networks. An array of the species can be returned with <code>species(N)</code>, and this can further be split between rows and columns with, respectively, <code>species(N,1)</code> and <code>species(N,2)</code>. Another high-level function is <code>interactions</code>, which returns a list of tuples, one for each interaction in the network.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb3-1" title="1">N = web_of_life(<span class="st">&quot;A_HP_001&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2">first(interactions(N))</a></code></pre></div>
+<pre><code>(from = &quot;Ctenophthalmus proximus&quot;, to = &quot;Microtus arvalis&quot;, strength = 2)</code></pre>
+<p>We also implement an iteration protocol (<code>for interaction in network ...</code>), which returns the same objects as the <code>interactions</code> function.</p>
+<p>The network itself can be accessed as an array, either using the <em>position</em> of the species (which is not advised to do as a user, since species are identified by names/symbol), or their names. This can be used to get the value of an interaction:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb5-1" title="1">N[<span class="st">&quot;Ctenophthalmus proximus&quot;</span>, <span class="st">&quot;Microtus majori&quot;</span>]</a></code></pre></div>
+<pre><code>27</code></pre>
+<p>There is a shortcut to test the <em>existence</em> of the interaction:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb7-1" title="1">has_interaction(N, <span class="st">&quot;Ctenophthalmus proximus&quot;</span>, <span class="st">&quot;Microtus majori&quot;</span>)</a></code></pre></div>
+<pre><code>true</code></pre>
+<p>Indexing can also be used to look at a subset of the network, in which case a new network is returned:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb9-1" title="1">Ctenophthalmus = filter(x -&gt; startswith(x, <span class="st">&quot;Ctenophthalmus&quot;</span>), species(N; dims=<span class="fl">1</span>))</a>
+<a class="sourceLine" id="cb9-2" title="2">Apodemus = filter(x -&gt; startswith(x, <span class="st">&quot;Apodemus&quot;</span>), species(N; dims=<span class="fl">2</span>))</a>
+<a class="sourceLine" id="cb9-3" title="3">N[Ctenophthalmus, Apodemus]</a></code></pre></div>
+<pre><code>5×2 bipartite quantitative ecological network (Int64, String) (L: 8)</code></pre>
+<p>When using slices, the package is not necessarily preserving the <em>order</em> of species. The package also uses ranges (the <code>simplify</code> function removes species without interactions):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb11-1" title="1">simplify(N[Ctenophthalmus,:])</a></code></pre></div>
+<pre><code>5×8 bipartite quantitative ecological network (Int64, String) (L: 23)</code></pre>
+<p>The <code>simplify</code> function will return another network, but there is a <code>simplify!</code> variant which will edit the network <em>in place</em>. Finally, we can get the set of predecessors or successors to a species – for example, the parasites of <em>“Apodemus sylvaticus”</em> are:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb13-1" title="1">N[:,Apodemus[<span class="fl">1</span>]]</a></code></pre></div>
+<pre><code>Set([&quot;Ctenophthalmus inornatus&quot;, &quot;Hystrichopsylla satunini&quot;, &quot;Ceratophyllus
+ sciurorum&quot;, &quot;Ctenophthalmus shovi&quot;, &quot;Megabothris turbidus&quot;, &quot;Myoxopsylla j
+ordani&quot;, &quot;Amphipsylla georgica&quot;, &quot;Rhadinopsylla integella&quot;, &quot;Ctenophthalmus
+ proximus&quot;, &quot;Nosopsyllus fasciatus&quot;, &quot;Leptopsylla segnis&quot;, &quot;Palaeopsylla ca
+ucasica&quot;, &quot;Leptopsylla taschenbergi&quot;, &quot;Amphipsylla rossica&quot;, &quot;Ctenophthalmu
+s hypanis&quot;, &quot;Hystrichopsylla talpae&quot;])</code></pre>
+<p>Whenever possible, we have overloaded base methods from the language, so that the right syntax is immediately intuitive to <em>Julia</em> users. For example, removing interactions whose intensity is below a certain threshold is done through the <code>isless</code> operation, <em>e.g.</em> we can select the sub-network made of interactions stronger than 20:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb15-1" title="1">S = simplify(N ≥ <span class="fl">20</span>)</a></code></pre></div>
+<h1 id="use-cases">Use-cases</h1>
+<p>In this section, we will use data from <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span> to illustrate a variety of network analyses – null hypothesis significance testing for nestedness, pairwise network <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>-diversity, modularity analysis, simulation of extinctions, and finally the application of a machine learning technique to infer possible missing interactions.</p>
+<p><code>EcologicalNetworks</code> comes with a variety of datasets, notably the &lt;web-of-life.es&gt; database. We will get the data from <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span> from this source:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb16-1" title="1">ids = getfield.(filter(x -&gt; occursin(<span class="st">&quot;Hadfield&quot;</span>, x.Reference), web_of_life()), :ID);</a>
+<a class="sourceLine" id="cb16-2" title="2">networks = convert.(BinaryNetwork, web_of_life.(ids));</a></code></pre></div>
+<h2 id="null-hypothesis-significance-testing">Null-hypothesis significance testing</h2>
+<p>One common analysis in the network literature is to compare the observed value of a network measure to the expected distribution under some definition of “random chance”. As of now <code>EcologicalNetworks.jl</code> focuses on generating binary (presence/absence of interactions) matrices, but expanding the functions for quantitative null models is feasible. This is usually done by (i) generating a matrix of probabilities of interactions based on connectance <span class="citation" data-cites="FortBasc06">(Fortuna &amp; Bascompte 2006)</span>, degree distribution <span class="citation" data-cites="BascJord03 WeitPois13">(Bascompte et al. 2003; Weitz et al. 2013)</span>, (ii) performing random draws of this matrix under various constraints on its degeneracy <span class="citation" data-cites="FortStou10">(Fortuna et al. 2010)</span>, and (iii) comparing the empirical value to its random distribution, usually through a one-sided <em>t</em>-test. We will illustrate this approach by comparing the observed value of nestedness (measured using the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> measure of <span class="citation" data-cites="BastFort09">Bastolla et al. (2009)</span>) to the random expectations under four null models. We will get the first network from the <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span> dataset to illustrate this approach:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb17-1" title="1">N = networks[<span class="fl">1</span>]</a></code></pre></div>
+<p><code>EcologicalNetworks</code> comes with functions to generate probabilistic matrices under the four most common null models – for example</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb18-1" title="1">P1 = null2(N)</a></code></pre></div>
+<p>All probabilistic networks can be used to generate random samples, by calling the <code>rand</code> function, possibly with a number of samples:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb19-1" title="1">R1 = rand(P1, <span class="fl">9</span>)</a></code></pre></div>
+<p>This allows to rapidly create random draws from a probabilistic null model, as illustrated in <a href="#fig:nullsample">2</a>.</p>
+<figure>
+<embed src="figures/nullsample.pdf" id="fig:nullsample" /><figcaption><span>Figure 2:</span> Illustration of the network (upper-left corner), probabilistic network generated by the null model, and of 8 random draws. The color of each node represents its degree in the original network, and the position of species is conserved across panels.</figcaption>
+</figure>
+<p>To simplify the code, we may want to wrap this into a function (note that the functions for null models accept networks of any partiteness, but they have to be binary). This function will take a network, a type of null model, and a number of replicates, and return the random draws. We will use four null models <span class="citation" data-cites="DelmBess18">(as per Delmas et al. 2018)</span>, <code>null1</code> (all interactions have equal probability), <code>null2</code> (interactions probability depends on the degree of both species), and <code>null3in</code> and <code>null3out</code> (interactions probability depends on the in-degree or out-degree of the species). These networks are likely to have some degenerate matrices (as per <span class="citation" data-cites="FortStou10">Fortuna et al. (2010)</span>), that is to say, some species end up disconnected from the rest of the network. One way to remove them is to apply a <code>filter</code>, using the <code>isdegenerate</code> function.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">function</span> nullmodel(n::T, f::<span class="dt">Function</span>, i::<span class="dt">Integer</span>) where {T&lt;:BinaryNetwork}</a>
+<a class="sourceLine" id="cb20-2" title="2">  @assert f <span class="kw">in</span> [null1, null2, null3in, null3out]</a>
+<a class="sourceLine" id="cb20-3" title="3">  sample_networks = rand(f(n), i)</a>
+<a class="sourceLine" id="cb20-4" title="4">  filter!(!isdegenerate, sample_networks)</a>
+<a class="sourceLine" id="cb20-5" title="5">  length(sample_networks) == <span class="fl">0</span> &amp;&amp; throw(ErrorException(<span class="st">&quot;No valid randomized networks; increase i ($(i))&quot;</span>))</a>
+<a class="sourceLine" id="cb20-6" title="6">  <span class="kw">return</span> sample_networks</a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="kw">end</span></a>
+<a class="sourceLine" id="cb20-8" title="8"></a>
+<a class="sourceLine" id="cb20-9" title="9">sample_size = <span class="fl">5</span>_<span class="fl">000</span></a>
+<a class="sourceLine" id="cb20-10" title="10"></a>
+<a class="sourceLine" id="cb20-11" title="11">S1 = nullmodel(N, null1, sample_size)</a>
+<a class="sourceLine" id="cb20-12" title="12">S2 = nullmodel(N, null2, sample_size)</a>
+<a class="sourceLine" id="cb20-13" title="13">S3i = nullmodel(N, null3in, sample_size)</a>
+<a class="sourceLine" id="cb20-14" title="14">S3o = nullmodel(N, null3out, sample_size)</a></code></pre></div>
+<p>This function will return the randomized networks that have the same richness as the empirical one. We can now measure the nestedness of the networks in each sample:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb21-1" title="1">nS1 = η.(S1)</a>
+<a class="sourceLine" id="cb21-2" title="2">nS2 = η.(S2)</a>
+<a class="sourceLine" id="cb21-3" title="3">nS3i = η.(S3i)</a>
+<a class="sourceLine" id="cb21-4" title="4">nS3o = η.(S3o)</a></code></pre></div>
+<figure>
+<embed src="figures/nhst.pdf" id="fig:nhst" /><figcaption><span>Figure 3:</span> Distribution of nestedness values for the empirical network (solid black line) and for random draws based on four null models. This analysis is frequently used to determine whether the nestedness of an observed network is significant.</figcaption>
+</figure>
+<h2 id="network-beta-diversity">Network beta-diversity</h2>
+<p>In this section, we will use the approach of <span class="citation" data-cites="PoisCana12a">Poisot et al. (2012)</span> to measure the dissimilarity between bipartite host-parasite networks. We use the networks from <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span>, which span the entirety of Eurasia. Because these networks are originally quantitative, we will remove the information on interaction strength using <code>convert</code>. Note that we convert to an union type (<code>BinaryNetwork</code>) – the <code>convert</code> function will select the appropriate network type to return based on the partiteness. The core operations on sets (<code>union</code>, <code>diff</code>, and <code>intersect</code>) are implemented for the <code>BinaryNetwork</code> type. As such, generating the “metaweb” (<em>i.e.</em> the list of all species and all interactions in the complete dataset) is:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb22-1" title="1">metaweb = reduce(union, networks)</a></code></pre></div>
+<p>From this metaweb, we can measure <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mrow><mi>O</mi><mi>S</mi></mrow></msub><mi>′</mi></mrow><annotation encoding="application/x-tex">\beta_{OS}&#39;</annotation></semantics></math> <span class="citation" data-cites="PoisCana12a">(Poisot et al. 2012)</span>, <em>i.e.</em> the dissimilarity of every network to the expectation in the metaweb. Measuring the distance between two networks is done in two steps. We follow the approach of <span class="citation" data-cites="KoleGast03">Koleff et al. (2003)</span>, in which dissimilarity is first partitioned into three components (common elements, and elements unique to both samples), then the value is measured based on the cardinality of these components. As in <span class="citation" data-cites="PoisCana12a">Poisot et al. (2012)</span>, the function to generate the partitions are <code>βos</code> (dissimilarity of interactions between shared species), <code>βs</code> (dissimilarity of species composition), and <code>βwn</code> (whole network dissimilarity). The output of these functions is passed to one of the functions to measure the actual <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">β</annotation></semantics></math>-diversity. We have implemented the 24 functions from <span class="citation" data-cites="KoleGast03">Koleff et al. (2003)</span>, and they are named <code>KGLdd</code>, where <code>dd</code> is the two-digits code of the function in Table 1 of <span class="citation" data-cites="KoleGast03">Koleff et al. (2003)</span>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb23-1" title="1">βcomponents = [βos(metaweb, n) <span class="kw">for</span> n <span class="kw">in</span> networks];</a>
+<a class="sourceLine" id="cb23-2" title="2">βosprime = KGL02.(βcomponents);</a></code></pre></div>
+<p>The average dissimilarity between the local interactions and interactions in the metaweb is 0.27. We have also presented the distribution in <a href="#fig:betadiv">4</a>. Finally, we measure the pairwise distance between all networks (because we use a symetric measure, we only need <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">n\times(n-1)</annotation></semantics></math> distances):</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb24-1" title="1">S, OS, WN = <span class="dt">Float64</span>[], <span class="dt">Float64</span>[], <span class="dt">Float64</span>[]</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="kw">for</span> i <span class="kw">in</span> <span class="fl">1</span>:(length(networks)-<span class="fl">1</span>)</a>
+<a class="sourceLine" id="cb24-3" title="3">  <span class="kw">for</span> j <span class="kw">in</span> (i+<span class="fl">1</span>):length(networks)</a>
+<a class="sourceLine" id="cb24-4" title="4">    push!(S, KGL02(βs(networks[i], networks[j])))</a>
+<a class="sourceLine" id="cb24-5" title="5">    push!(OS, KGL02(βos(networks[i], networks[j])))</a>
+<a class="sourceLine" id="cb24-6" title="6">    push!(WN, KGL02(βwn(networks[i], networks[j])))</a>
+<a class="sourceLine" id="cb24-7" title="7">  <span class="kw">end</span></a>
+<a class="sourceLine" id="cb24-8" title="8"><span class="kw">end</span></a></code></pre></div>
+<figure>
+<embed src="figures/betadiv.pdf" id="fig:betadiv" /><figcaption><span>Figure 4:</span> Left panel: values of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mrow><mi>O</mi><mi>S</mi></mrow></msub><mi>′</mi></mrow><annotation encoding="application/x-tex">\beta_{OS}&#39;</annotation></semantics></math> for the 51 networks in <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span>. Right panel: species dissimilarity is not a good predictor of interaction dissimilarity between shared species.</figcaption>
+</figure>
+<h2 id="modularity">Modularity</h2>
+<p>In this example, we will show how the modular structure of an ecological network can be optimized. Finding the optimal modular structure can be a time-consuming process, as it relies on heuristic which are not guaranteed to converge to the global maximum. There is no elegant alternative to trying multiple approaches, repeating the process multiple time, and having some luck.</p>
+<p>We will use again the first network from the <span class="citation" data-cites="HadfKras14">Hadfield et al. (2014)</span> dataset in this example, which has a small number of species. For the first approach, we will generate random partitions of the species across 3 to 12 modules, and evaluate 20 replicate attempts for each of these combinations. The output we are interested in is the number of modules, and the overall modularity <span class="citation" data-cites="Barb07">(Barber 2007)</span>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb25-1" title="1">n = repeat(<span class="fl">3</span>:<span class="fl">12</span>, outer=<span class="fl">20</span>)</a>
+<a class="sourceLine" id="cb25-2" title="2">m = <span class="dt">Array</span>{<span class="dt">Dict</span>}(undef, length(n))</a>
+<a class="sourceLine" id="cb25-3" title="3"></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="kw">for</span> i <span class="kw">in</span> eachindex(n)</a>
+<a class="sourceLine" id="cb25-5" title="5">  <span class="co"># Each run returns the network and its modules</span></a>
+<a class="sourceLine" id="cb25-6" title="6">  <span class="co"># We discard the network, and assign the modules to our object</span></a>
+<a class="sourceLine" id="cb25-7" title="7">  _, m[i] = n_random_modules(n[i])(N) |&gt; x -&gt; brim(x...)</a>
+<a class="sourceLine" id="cb25-8" title="8"><span class="kw">end</span></a></code></pre></div>
+<p>Now that we have the modular partition for every attempt, we can count the modules in it, and measure its modularity:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb26-1" title="1">q = map(x -&gt; Q(N,x), m);</a>
+<a class="sourceLine" id="cb26-2" title="2">c = (m .|&gt; values |&gt; collect) .|&gt; unique .|&gt; length</a></code></pre></div>
+<p>The relationship between the two is represented in <a href="#fig:modularity">5</a>. Out of the 200 attempts, we want to get the most modular one, <em>i.e.</em> the one with highest modularity. In some simple problems, there may be several partitions with the highest value, so we can either take the first, or one at random:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb27-1" title="1">optimal = rand(findall(q.== maximum(q)))</a>
+<a class="sourceLine" id="cb27-2" title="2">best_m = m[optimal]</a></code></pre></div>
+<p>This partitions has 5 modules. <code>EcologicalNetworks</code> has other routines for modularity, such as LP <span class="citation" data-cites="LiuMura09">(Liu &amp; Murata 2009)</span>, and a modified version of LP relying on simulated annealing.</p>
+<figure>
+<embed src="figures/modularity.pdf" id="fig:modularity" /><figcaption><span>Figure 5:</span> Left, relationship between the number of modules in the optimized partition and its modularity. Right, representation of the network where every node is colored according to the module it belongs to in the optimal partition.</figcaption>
+</figure>
+<h2 id="extinctions">Extinctions</h2>
+<p>In this illustration, we will simulate extinctions of hosts, to show how the package can be extended by using the core functions described in the “Interface” section. Simply put, the goal of this example is to write a function to randomly remove one host species, remove all parasite species that end up not connected to a host, and measuring the effect of these extinctions on the remaining network. Rather than measuring the network structure in the function, we will return an array of networks to be manipulated later:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">function</span> extinctions(N::T) where {T &lt;: AbstractBipartiteNetwork}</a>
+<a class="sourceLine" id="cb28-2" title="2"></a>
+<a class="sourceLine" id="cb28-3" title="3">  <span class="co"># We start by making a copy of the network to extinguish</span></a>
+<a class="sourceLine" id="cb28-4" title="4">  Y = [copy(N)]</a>
+<a class="sourceLine" id="cb28-5" title="5"></a>
+<a class="sourceLine" id="cb28-6" title="6">  <span class="co"># While there is at least one species remaining...</span></a>
+<a class="sourceLine" id="cb28-7" title="7">  <span class="kw">while</span> richness(last(Y)) &gt; <span class="fl">1</span></a>
+<a class="sourceLine" id="cb28-8" title="8">    <span class="co"># We remove one species randomly</span></a>
+<a class="sourceLine" id="cb28-9" title="9">    remain = sample(species(last(Y); dims=<span class="fl">2</span>), richness(last(Y); dims=<span class="fl">2</span>)-<span class="fl">1</span>, replace=false)</a>
+<a class="sourceLine" id="cb28-10" title="10"></a>
+<a class="sourceLine" id="cb28-11" title="11">    <span class="co"># Remaining species</span></a>
+<a class="sourceLine" id="cb28-12" title="12">    R = last(Y)[:,remain]</a>
+<a class="sourceLine" id="cb28-13" title="13">    simplify!(R)</a>
+<a class="sourceLine" id="cb28-14" title="14"></a>
+<a class="sourceLine" id="cb28-15" title="15">    <span class="co"># Then add the simplified network (without the extinct species) to our collection</span></a>
+<a class="sourceLine" id="cb28-16" title="16">    push!(Y, copy(R))</a>
+<a class="sourceLine" id="cb28-17" title="17">  <span class="kw">end</span></a>
+<a class="sourceLine" id="cb28-18" title="18">  <span class="kw">return</span> Y</a>
+<a class="sourceLine" id="cb28-19" title="19"><span class="kw">end</span></a></code></pre></div>
+<pre><code>extinctions (generic function with 1 method)</code></pre>
+<p>One classical analysis is to remove host species, and count the richness of parasite species, to measure their robustness to host extinctions <span class="citation" data-cites="MemmWase04">(Memmott et al. 2004)</span> – this is usually done with multiple scenarios for order of extinction, but we will focus on the random order here. Even though <code>EcologicalNetworks</code> has a built-in function for richness, we can write a small wrapper around it:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">function</span> parasite_richness(N::T) where {T&lt;:BinaryNetwork}</a>
+<a class="sourceLine" id="cb30-2" title="2">  <span class="kw">return</span> richness(N; dims=<span class="fl">1</span>)</a>
+<a class="sourceLine" id="cb30-3" title="3"><span class="kw">end</span></a></code></pre></div>
+<pre><code>parasite_richness (generic function with 1 method)</code></pre>
+<p>Writing multiple functions that take a single argument allows to chain them in a very expressive way: for example, measuring the richness on all timesteps in a simulation is <code>N |&gt; extinctions .|&gt; parasite_richness</code>, or alternatively, <code>parasite_richness.(extinctions(N))</code>. In <a href="#fig:extinctions">6</a>, we illustrate the output of this analysis on 100 simulations (average and standard deviation) for one of the networks.</p>
+<figure>
+<embed src="figures/extinctions.pdf" id="fig:extinctions" /><figcaption><span>Figure 6:</span> Output of 100 random extinction simulations, where the change in parasite richness was measured every timestep. This example shows how the basic functions of the package can be leveraged to build custom analyses rapidly.</figcaption>
+</figure>
+<h2 id="interaction-imputation">Interaction imputation</h2>
+<p>In the final example, we will apply the linear filtering method of <span class="citation" data-cites="StocPois17">Stock et al. (2017)</span> to suggest which negative interactions may have been missed in a network. Starting from a binary network, this approach generates a quantitative network, in which the weight of each interaction is the likelihood that it exists – for interactions absent from the original network, this suggests that they may have been missed during sampling. This makes this approach interesting to guide empirical efforts during the notoriously difficult task of sampling ecological networks <span class="citation" data-cites="Jord16a Jord16">(Jordano 2016b, 2016a)</span>.</p>
+<p>In the approach of <span class="citation" data-cites="StocPois17">Stock et al. (2017)</span>, the filtered interaction matrix (<em>i.e.</em> the network of weights) is given by</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>α</mi><mn>1</mn></msub><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>α</mi><mn>2</mn></msub><munder><mo>∑</mo><mi>k</mi></munder><mfrac><msub><mi>Y</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><mi>n</mi></mfrac><mo>+</mo><msub><mi>α</mi><mn>3</mn></msub><munder><mo>∑</mo><mi>l</mi></munder><mfrac><msub><mi>Y</mi><mrow><mi>i</mi><mi>l</mi></mrow></msub><mi>m</mi></mfrac><mo>+</mo><msub><mi>α</mi><mn>4</mn></msub><mfrac><mrow><mo>∑</mo><mi>Y</mi></mrow><mrow><mi>n</mi><mo>×</mo><mi>m</mi></mrow></mfrac><mspace width="0.167em"></mspace><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}
+F_{ij} = \alpha_1Y_{ij} + \alpha_2\sum_k\frac{Y_{kj}}{n} + \alpha_3\sum_l\frac{Y_{il}}{m} + \alpha_4\frac{\sum Y}{n\times m} \,,
+\end{equation}</annotation></semantics></math></p>
+<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> is a vector of weights summing to 1, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n,m)</annotation></semantics></math> is the size of the network. Note that the sums along rows and columns are actually the in and out degree of species. This is implemented in <code>EcologicalNetworks</code> as the <code>linearfilter</code> function. As in <span class="citation" data-cites="StocPois17">Stock et al. (2017)</span>, we set all values in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">1/4</annotation></semantics></math>. We can now use this function to get the top interaction that, although absent from the sampled network, is a strong candidate to exist based on the linear filtering output:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb32-1" title="1">N = networks[<span class="fl">50</span>]</a>
+<a class="sourceLine" id="cb32-2" title="2">F = linearfilter(N)</a></code></pre></div>
+<p>We would like to separate the weights in 3: observed interactions, interactions that are not observed in this network but are observed in the metaweb, and interactions that are never observed. <code>EcologicalNetworks</code> has the <code>has_interaction</code> function to test this, but because <code>BinaryNetwork</code> are using Boolean values, we can look at the network directly:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb33-1" title="1">scores_present = sort(</a>
+<a class="sourceLine" id="cb33-2" title="2">  filter(int -&gt; N[int.from, int.to], interactions(F)),</a>
+<a class="sourceLine" id="cb33-3" title="3">  by = int -&gt; int.probability,</a>
+<a class="sourceLine" id="cb33-4" title="4">  rev = true);</a>
+<a class="sourceLine" id="cb33-5" title="5"></a>
+<a class="sourceLine" id="cb33-6" title="6">scores_metaweb = sort(</a>
+<a class="sourceLine" id="cb33-7" title="7">  filter(int -&gt; (!N[int.from,int.to])&amp;(metaweb[int.from, int.to]), interactions(F)),</a>
+<a class="sourceLine" id="cb33-8" title="8">  by = int -&gt; int.probability,</a>
+<a class="sourceLine" id="cb33-9" title="9">  rev = true);</a>
+<a class="sourceLine" id="cb33-10" title="10"></a>
+<a class="sourceLine" id="cb33-11" title="11">scores_absent = sort(</a>
+<a class="sourceLine" id="cb33-12" title="12">  filter(int -&gt; !metaweb[int.from,int.to], interactions(F)),</a>
+<a class="sourceLine" id="cb33-13" title="13">  by = int -&gt; int.probability,</a>
+<a class="sourceLine" id="cb33-14" title="14">  rev = true);</a></code></pre></div>
+<p>The results of this analysis are presented in <a href="#fig:imputation">7</a>: the weights <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">F_{ij}</annotation></semantics></math> of interactions that are present locally (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mtext mathvariant="normal">true</mtext></mrow><annotation encoding="application/x-tex">Y_{ij}=\text{true}</annotation></semantics></math>) are <em>always</em> larger that the weight of interactions that are absent; furthermore, the weight of interactions that are absent locally are equal to the weight of interactions that are also absent globally, strongly suggesting that this network has been correctly sampled.</p>
+<figure>
+<embed src="figures/imputation.pdf" id="fig:imputation" /><figcaption><span>Figure 7:</span> Relative weights (higher weights indicates a larger chance that the interaction has been missed when sampling) in one of the host-parasite networks according to the linear filter model of <span class="citation" data-cites="StocPois17">Stock et al. (2017)</span>.</figcaption>
+</figure>
+<h1 id="conclusion">Conclusion</h1>
+<p>We have illustrated the core approach of <code>EcologicalNetworks</code>, a <em>Julia</em> package to analyse ecological networks of species interactions. It is built to be extendable, and to facilitate the development of flexible network analysis pipelines. <code>EcologicalNetworks</code> has been designed to be robust, easy to write code with, maintainable, and fast (in that order). We think that by providing a rich system of types, coupled with specialized methods, it will allow ecologists to rapidly implement network analyses. Bug reports and features requests can be submitted at <a href="https://github.com/PoisotLab/EcologicalNetworks.jl/issues" class="uri">https://github.com/PoisotLab/EcologicalNetworks.jl/issues</a>.</p>
+<p><strong>Acknowledgements.</strong> TP and ZB designed the case studies and wrote the code. ZB performed usability test of the package. We thank Stephen J Beckett and Michael Krabbe Borregaard for comments on an earlier version of this manuscript, and Michiel Stock for feedback on the linear filter functions.</p>
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-BakeKaar14">
+<p><strong>Baker et al.</strong> (2014). Species’ roles in food webs show fidelity across a highly variable oak forest. <em>Ecography.</em> 38:130–9. </p>
+</div>
+<div id="ref-Barb07">
+<p><strong>Barber</strong>. (2007). Modularity and community detection in bipartite networks. <em>Phys Rev E.</em> 76:066102. </p>
+</div>
+<div id="ref-BascJord03">
+<p><strong>Bascompte et al.</strong> (2003). The nested assembly of plant-animal mutualistic networks. <em>PNAS.</em> 100:9383–7. </p>
+</div>
+<div id="ref-BastFort09">
+<p><strong>Bastolla et al.</strong> (2009). The architecture of mutualistic networks minimizes competition and increases biodiversity. <em>Nature.</em> 458:1018–20. </p>
+</div>
+<div id="ref-BezaEdel17">
+<p><strong>Bezanson et al.</strong> (2017). Julia: A Fresh Approach to Numerical Computing. <em>SIAM Rev.</em> 59:65–98. </p>
+</div>
+<div id="ref-BorrLau14">
+<p><strong>Borrett &amp; Lau</strong>. (2014). enaR: An r package for Ecosystem Network Analysis. <em>Methods Ecol Evol.</em> 5:1206–13. </p>
+</div>
+<div id="ref-CsarNepu06">
+<p><strong>Csardi &amp; Nepusz</strong>. (2006). The igraph Software Package for Complex Network Research. <em>InterJournal.</em> Complex Systems:1695. </p>
+</div>
+<div id="ref-DelmBess18">
+<p><strong>Delmas et al.</strong> (2018). Analysing ecological networks of species interactions. <em>Biol Rev.</em>:112540. </p>
+</div>
+<div id="ref-DormGrub08">
+<p><strong>Dormann et al.</strong> (2008). Introducing the bipartite Package: Analysing Ecological Networks. <em>R News.</em> 8:8–11. </p>
+</div>
+<div id="ref-FlorPois16">
+<p><strong>Flores et al.</strong> (2016). BiMAT: a MATLAB package to facilitate the analysis and visualization of bipartite networks. <em>Methods Ecol Evol.</em> 7:127–32. </p>
+</div>
+<div id="ref-FortBasc06">
+<p><strong>Fortuna &amp; Bascompte</strong>. (2006). Habitat loss and the structure of plantanimal mutualistic networks. <em>Ecol Lett.</em> 9:281–6. </p>
+</div>
+<div id="ref-FortStou10">
+<p><strong>Fortuna et al.</strong> (2010). Nestedness versus modularity in ecological networks: two sides of the same coin? <em>J Anim Ecol.</em> 78:811–7. </p>
+</div>
+<div id="ref-HadfKras14">
+<p><strong>Hadfield et al.</strong> (2014). A Tale of Two Phylogenies: Comparative Analyses of Ecological Interactions. <em>Am Nat.</em> 183:174–87. </p>
+</div>
+<div id="ref-HagbSchu08">
+<p><strong>Hagberg et al.</strong> (2008). Exploring Network Structure, Dynamics, and Function using NetworkX. In: Varoquaux et al., eds. <em>Proceedings of the 7th Python in Science Conference.</em> Pasadena, CA USA; pp. 11–5. </p>
+</div>
+<div id="ref-Jord16">
+<p><strong>Jordano</strong>. (2016a). Chasing Ecological Interactions. <em>PLOS Biol.</em> 14:e1002559. </p>
+</div>
+<div id="ref-Jord16a">
+<p><strong>Jordano</strong>. (2016b). Sampling networks of ecological interactions. <em>Funct Ecol.</em> </p>
+</div>
+<div id="ref-KoleGast03">
+<p><strong>Koleff et al.</strong> (2003). Measuring beta diversity for presence–absence data. <em>J Anim Ecol.</em> 72:367–82. </p>
+</div>
+<div id="ref-LiuMura09">
+<p><strong>Liu &amp; Murata</strong>. (2009). Community Detection in Large-Scale Bipartite Networks. <em>2009 IEEE/WIC/ACM International Joint Conference on Web Intelligence and Intelligent Agent Technology.</em> Institute of Electrical &amp; Electronics Engineers (IEEE); </p>
+</div>
+<div id="ref-MemmWase04">
+<p><strong>Memmott et al.</strong> (2004). Tolerance of pollination networks to species extinctions. <em>Proc Biol Sci.</em> 271:2605–11. </p>
+</div>
+<div id="ref-MoraCirt18">
+<p><strong>Mora et al.</strong> (2018). pymfinder: a tool for the motif analysis of binary and quantitative complex networks. <em>bioRxiv.</em>:364703. </p>
+</div>
+<div id="ref-PellAlbo17">
+<p><strong>Pellissier et al.</strong> (2017). Comparing species interaction networks along environmental gradients. <em>Biol Rev Camb Philos Soc.</em> </p>
+</div>
+<div id="ref-PoisCana12a">
+<p><strong>Poisot et al.</strong> (2012). The dissimilarity of species interaction networks. <em>Ecol Lett.</em> 15:1353–61. </p>
+</div>
+<div id="ref-PoisCirt16">
+<p><strong>Poisot et al.</strong> (2016a). The structure of probabilistic networks. Vamosi, ed. <em>Methods Ecol Evol.</em> 7:303–12. </p>
+</div>
+<div id="ref-PoisStou16">
+<p><strong>Poisot et al.</strong> (2016b). Describe, understand and predict: why do we need networks in ecology? <em>Funct Ecol.</em> 30:1878–82. </p>
+</div>
+<div id="ref-SimmSwee18">
+<p><strong>Simmons et al.</strong> (2018). bmotif: a package for counting motifs in bipartite networks. </p>
+</div>
+<div id="ref-StocPois17">
+<p><strong>Stock et al.</strong> (2017). Linear filtering reveals false negatives in species interaction data. <em>Sci Rep.</em> 7:45908. </p>
+</div>
+<div id="ref-WeitPois13">
+<p><strong>Weitz et al.</strong> (2013). Phage–bacteria infection networks. <em>Trends Microbiol.</em> 21:82–91. </p>
+</div>
+</div>
+</article>
+
+
+</body>
+</html>
