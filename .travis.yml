@@ -4,7 +4,7 @@ branches:
     - master
 before_install:
   - curl -fLo /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.4/pandoc-2.4-1-amd64.deb
-  - sudo dpkg -i $DEB
+  - sudo dpkg -i /tmp/pandoc.deb
 install:
   - pip install -r build/requirements.txt
 script:
