@@ -1,9 +1,10 @@
-language: r
-sudo: false
-pandoc_version: 2
+language: python
 branches:
   only:
     - master
+before_install:
+  - curl -fLo /tmp/pandoc.deb https://github.com/jgm/pandoc/releases/download/2.4/pandoc-2.4-1-amd64.deb
+  - sudo dpkg -i $DEB
 install:
   - pip install -r build/requirements.txt
 script:
