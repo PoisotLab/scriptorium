@@ -1,10 +1,9 @@
-language: python
+language: r
+sudo: false
+pandoc_version: 2
 branches:
   only:
     - master
-addons:
-  apt_packages:
-    - pandoc
 install:
   - pip install -r build/requirements.txt
 script:
