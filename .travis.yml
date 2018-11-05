@@ -9,6 +9,7 @@ install:
   - pip install -r build/requirements.txt
 script:
   - make
+  - make.html
 before_deploy:
   - rm -r build
   - rm -r styles/*.scss
