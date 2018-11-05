@@ -9,3 +9,9 @@ install:
   - pip install -r build/requirements.txt
 script:
   - make
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  skip-cleanup: true
+  on:
+    branch: master

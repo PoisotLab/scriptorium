@@ -1,4 +1,6 @@
-test.pdf: test.md
+MS=manuscript
+
+$(MS).pdf: $(MS).md
 	pandoc $< -o $@ \
 		--pdf-engine=weasyprint \
 		--webtex \
@@ -7,5 +9,5 @@ test.pdf: test.md
 		--filter pandoc-eqnos \
 		--bibliography references.json \
 		--csl build/plab.csl \
-		--template=manuscript.html \
+		--template=build/manuscript.html \
 		--css styles/preprint.css
