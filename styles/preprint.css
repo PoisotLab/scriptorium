@@ -1,20 +1,21 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i|Cousine:400,400i,700,700i|Tinos:400,400i,700,700i");
 @media print {
   @page {
     size: letter;
     margin: 12mm 70mm 18mm 15mm;
     @bottom-right {
       content: "p. " counter(page);
-      font-family: "TeX Gyre Hermes";
+      font-family: "Arimo";
       color: #6383ba;
       text-align: right;
       font-size: 60%; } }
   body {
     font-size: 12px;
-    font-family: "TeX Gyre Pagella", serif; }
+    font-family: "Tinos", serif; }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "TeX Gyre Hermes", sans-serif;
+    font-family: "Arimo", sans-serif;
     font-weight: normal;
     color: #b9b5ad;
     page-break-after: avoid; }
@@ -25,8 +26,7 @@
 
   code {
     color: #6383ba;
-    font-family: "TeX Gyre Pagella";
-    font-weight: bold; }
+    font-size: 95%; }
 
   pre {
     font-size: 90%;
@@ -35,7 +35,7 @@
     border-left: 1px solid #b9b5ad;
     background-color: white; }
     pre code {
-      font-family: "TeX Gyre Cursor";
+      font-family: "Cousine";
       font-weight: normal;
       color: #333; }
     pre.sourceCode {
@@ -47,7 +47,7 @@
   table {
     border-collapse: collapse;
     width: 100%;
-    font-family: "TeX Gyre Hermes";
+    font-family: "Arimo";
     font-size: 80%;
     display: table; }
     table td {
@@ -72,16 +72,21 @@
       width: 130mm;
       float: left; }
     figure figcaption {
-      font-size: 90%;
+      font-size: 85%;
       font-style: italic;
-      text-align: justify;
-      font-family: "TeX Gyre Hermes";
+      text-align: left;
+      font-family: "Arimo";
       width: 60mm;
       padding: 0mm 5mm;
       float: right;
       overflow: visible;
       min-height: 5px;
       z-index: 100; }
+      figure figcaption img {
+        width: auto;
+        float: none;
+        display: inline;
+        max-height: 12px; }
 
   article {
     counter-reset: par;
@@ -105,7 +110,7 @@
       padding-bottom: 0.5em; }
       article p:before {
         counter-increment: par;
-        font-family: "TeX Gyre Hermes";
+        font-family: "Arimo";
         font-weight: 300;
         content: "§" counter(h1) " ¶" counter(par);
         float: left;
@@ -124,7 +129,7 @@
     width: 115%;
     margin-bottom: 2em; }
   header .author {
-    font-family: "TeX Gyre Hermes";
+    font-family: "Arimo";
     margin-bottom: 2em; }
     header .author .name {
       display: inline-block;
@@ -132,7 +137,7 @@
     header .author .email {
       display: inline-block;
       float: right;
-      font-family: "TeX Gyre Cursor";
+      font-family: "Cousine";
       color: #6383ba; }
     header .author .affiliations {
       display: block; }
@@ -154,7 +159,6 @@
     padding-left: 35%;
     padding-right: 25%;
     margin-bottom: 2em;
-    line-height: 1.55;
-    font-weight: bold; } }
+    line-height: 1.55; } }
 
 /*# sourceMappingURL=preprint.css.map */

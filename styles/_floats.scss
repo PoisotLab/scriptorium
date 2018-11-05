@@ -31,9 +31,9 @@ figure {
     float: left;
   }
   figcaption {
-    font-size: 90%;
+    font-size: 85%;
     font-style: italic;
-    text-align: justify;
+    text-align: left;
     font-family: $font-head;
     width: 60mm;
     padding: 0mm 5mm;
@@ -41,5 +41,11 @@ figure {
     overflow: visible;
     min-height: 5px;
     z-index: 100;
+    img {
+      width: auto;
+      float: none;
+      display: inline;
+      max-height: $base-size;
+    }
   }
 }

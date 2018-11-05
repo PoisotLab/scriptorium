@@ -6,5 +6,6 @@ test.pdf: test.md
 		--filter pandoc-tablenos \
 		--filter pandoc-eqnos \
 		--bibliography references.json \
+		--csl build/plab.csl \
 		--template=manuscript.html \
 		--css styles/preprint.css
