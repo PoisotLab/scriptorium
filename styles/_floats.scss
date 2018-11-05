@@ -1,0 +1,45 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: $font-head;
+  font-size: 80%;
+  display: table;
+  td {
+    vertical-align: middle;
+  }
+  th, td {
+    padding: 1.2mm 0.6mm;
+    border-bottom: 1px solid lighten($tertiary, 10%);
+  }
+  tr:nth-child(even) {background-color: lighten($tertiary, 27%)}
+  th {
+    background-color: lighten($tertiary, 15%);
+    font-weight: normal;
+    border-top: 1px solid lighten($tertiary, 10%);
+  }
+}
+
+
+figure {
+  margin: 0 0;
+  width: 200mm;
+  overflow: auto;
+  display: table;
+  margin: 1em 0em;
+  img {
+    width: 130mm;
+    float: left;
+  }
+  figcaption {
+    font-size: 90%;
+    font-style: italic;
+    text-align: justify;
+    font-family: $font-head;
+    width: 60mm;
+    padding: 0mm 5mm;
+    float: right;
+    overflow: visible;
+    min-height: 5px;
+    z-index: 100;
+  }
+}

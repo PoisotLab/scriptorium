@@ -1,0 +1,42 @@
+body {
+  font-size: $base-size;
+  font-family: $font-copy, serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-head, sans-serif;
+  font-weight: normal;
+  color: $tertiary;
+  page-break-after: avoid;
+}
+
+a {
+  text-decoration: none;
+  color: $primary;
+}
+
+code {
+  color: $secondary;
+  font-family: $font-copy;
+  font-weight: bold;
+}
+
+pre {
+  font-size: 90%;
+  margin: -4px -4px;
+  padding: 4px 4px;
+  border-left: 1px solid $tertiary;
+  background-color: lighten($tertiary, 35%);
+  code {
+    font-family: $font-code;
+    font-weight: normal;
+    color: #333;
+  }
+  &.sourceCode {
+    margin: -4px -4px;
+    padding: 4px 4px;
+    border-left: 1px solid $tertiary;
+    background-color: lighten($tertiary, 25%);
+  }
+
+}

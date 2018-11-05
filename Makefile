@@ -1,7 +1,7 @@
 test.pdf: test.md
 	pandoc $< -o $@ \
 		--pdf-engine=weasyprint \
-		--mathml \
+		--webtex \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
 		--filter pandoc-eqnos \

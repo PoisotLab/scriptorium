@@ -1,0 +1,11 @@
+@page {
+  size: letter;
+  margin: $t-margin $o-margin $b-margin $i-margin;
+  @bottom-right {
+    content: "p. " counter(page);
+    font-family: $font-head;
+    color: $secondary;
+    text-align: right;
+    font-size: 60%;
+  }
+}

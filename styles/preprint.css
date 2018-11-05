@@ -1,123 +1,130 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400i,700,700i|Open+Sans+Condensed:300,300i|Open+Sans:300,300i,400,400i,600,600i|Vollkorn:400,400i,600,600i&subset=greek,greek-ext");
-@import url("https://fonts.googleapis.com/css?family=Fira+Mono:400,500|Fira+Sans+Condensed:300,300i,400,400i,500,500i|Fira+Sans:300,300i,400,400i,500,500i&subset=greek,greek-ext");
 @media print {
-  b {
-    font-weight: 600; }
-
   @page {
-    margin: 15mm 15mm 15mm 45mm;
+    size: letter;
+    margin: 12mm 70mm 18mm 15mm;
     @bottom-right {
       content: "p. " counter(page);
-      font-family: "Fira Sans";
-      color: #b9b5ad;
+      font-family: "TeX Gyre Hermes";
+      color: #6383ba;
       text-align: right;
       font-size: 60%; } }
   body {
-    font-size: 13px;
-    font-family: "Fira Sans", serif; }
-
-  pre, code {
-    font-family: "Fira Mono", monospace; }
-    pre b, code b {
-      font-weight: 700; }
+    font-size: 12px;
+    font-family: "TeX Gyre Pagella", serif; }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Fira Sans Condensed", sans-serif;
-    font-weight: normal; }
+    font-family: "TeX Gyre Hermes", sans-serif;
+    font-weight: normal;
+    color: #b9b5ad;
+    page-break-after: avoid; }
 
   a {
     text-decoration: none;
     color: #6ca86e; }
 
-  article {
-    margin-top: 5em;
-    counter-reset: par;
-    counter-reset: h1; }
-    article pre {
-      font-size: 90%;
+  code {
+    color: #6383ba;
+    font-family: "TeX Gyre Pagella";
+    font-weight: bold; }
+
+  pre {
+    font-size: 90%;
+    margin: -4px -4px;
+    padding: 4px 4px;
+    border-left: 1px solid #b9b5ad;
+    background-color: white; }
+    pre code {
+      font-family: "TeX Gyre Cursor";
+      font-weight: normal;
+      color: #333; }
+    pre.sourceCode {
       margin: -4px -4px;
       padding: 4px 4px;
       border-left: 1px solid #b9b5ad;
-      background-color: #fafafa; }
-      article pre.sourceCode {
-        margin: -4px -4px;
-        padding: 4px 4px;
-        border-left: 1px solid #b9b5ad;
-        background-color: #f4f3f2; }
-    article h1 {
-      counter-increment: h1;
-      counter-reset: par; }
-    article .references p:before {
-      display: none; }
-    article p {
-      line-height: 1.45; }
-      article p:before {
-        counter-increment: par;
-        font-family: "Fira Sans";
-        font-weight: 300;
-        content: "§" counter(h1) " ¶" counter(par);
-        float: right;
-        width: 7mm;
-        margin-right: -13mm;
-        text-align: right;
-        display: inline-block;
-        color: #b9b5ad;
-        font-size: 55%;
-        margin-top: 1mm; }
+      background-color: #f4f3f2; }
 
   table {
     border-collapse: collapse;
     width: 100%;
-    font-family: "Fira Sans Condensed";
+    font-family: "TeX Gyre Hermes";
     font-size: 80%;
     display: table; }
     table td {
       vertical-align: middle; }
     table th, table td {
       padding: 1.2mm 0.6mm;
-      border-bottom: 1px solid #efefef; }
+      border-bottom: 1px solid #d0cec9; }
     table tr:nth-child(even) {
-      background-color: #f2f2f2; }
+      background-color: #f8f8f7; }
     table th {
-      background-color: #6ca86e;
-      color: white;
-      font-weight: normal; }
+      background-color: #dcdad6;
+      font-weight: normal;
+      border-top: 1px solid #d0cec9; }
 
   figure {
     margin: 0 0;
-    min-width: 100%; }
+    width: 200mm;
+    overflow: auto;
+    display: table;
+    margin: 1em 0em; }
     figure img {
-      width: 100%; }
+      width: 130mm;
+      float: left; }
     figure figcaption {
       font-size: 90%;
-      font-family: "Fira Sans Condensed"; }
-      figure figcaption span {
-        font-weight: bold;
-        color: #b9b5ad; }
+      font-style: italic;
+      text-align: justify;
+      font-family: "TeX Gyre Hermes";
+      width: 60mm;
+      padding: 0mm 5mm;
+      float: right;
+      overflow: visible;
+      min-height: 5px;
+      z-index: 100; }
 
-  h1 {
-    margin-left: -10mm;
-    color: #b9b5ad;
-    font-size: 150%;
-    margin-top: 3em;
-    margin-bottom: -0.1em; }
-
-  h2 {
-    font-size: 120%;
-    margin-bottom: -0.6em;
-    color: #b9b5ad;
-    font-weight: 300; }
+  article {
+    counter-reset: par;
+    counter-reset: h1; }
+    article h1 {
+      counter-increment: h1;
+      counter-reset: par;
+      margin-top: 3em; }
+      article h1:first-child {
+        margin-top: 0em; }
+    article h2 {
+      display: inline;
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: -1em;
+      margin-top: 1.2em; }
+    article .references p:before {
+      display: none; }
+    article p {
+      line-height: 1.55;
+      padding-bottom: 0.5em; }
+      article p:before {
+        counter-increment: par;
+        font-family: "TeX Gyre Hermes";
+        font-weight: 300;
+        content: "§" counter(h1) " ¶" counter(par);
+        float: left;
+        width: 7mm;
+        margin-left: -11mm;
+        text-align: right;
+        display: inline-block;
+        color: #b9b5ad;
+        font-size: 55%;
+        margin-top: 1mm; }
 
   header h1 {
     font-weight: 300;
     color: #6ca86e;
     font-size: 250%;
     width: 115%;
-    margin-left: -30mm;
     margin-bottom: 2em; }
   header .author {
-    font-family: "Fira Sans";
+    font-family: "TeX Gyre Hermes";
     margin-bottom: 2em; }
     header .author .name {
       display: inline-block;
@@ -125,8 +132,8 @@
     header .author .email {
       display: inline-block;
       float: right;
-      font-family: "Fira Mono";
-      color: #b9b5ad; }
+      font-family: "TeX Gyre Cursor";
+      color: #6383ba; }
     header .author .affiliations {
       display: block; }
       header .author .affiliations .affiliation:before {
@@ -146,6 +153,8 @@
     padding-bottom: 0.5em;
     padding-left: 35%;
     padding-right: 25%;
-    margin-bottom: 2em; } }
+    margin-bottom: 2em;
+    line-height: 1.55;
+    font-weight: bold; } }
 
 /*# sourceMappingURL=preprint.css.map */

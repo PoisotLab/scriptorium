@@ -162,7 +162,7 @@ anticipated. In addition, there are a number of type unions (@fig:types). The
 purpose of these types is to help users write functions that target the correct
 combination of networks.
 
-![Union types defined by `EcologicalNetworks` -- all networks belong to the `AbstractEcologicalNetwork` supertype. The ability to target specific combinations of types allows to write the correct methods for multiple classes of networks at once, while being able to specialize them on specific types.](figures/types.png){#fig:types}
+![Union types defined by `EcologicalNetworks` -- all networks belong to the `AbstractEcologicalNetwork` supertype. The ability to target specific combinations of types allows to write the correct methods for multiple classes of networks at once, while being able to specialize them on specific types.](figure1.png){#fig:types}
 
 Fortunately, end-users will almost never need to understand how data are
 represented within a type -- the package is built around a number of high-level

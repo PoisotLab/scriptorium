@@ -1,0 +1,44 @@
+article {
+  counter-reset: par;
+  counter-reset: h1;
+  h1 {
+    counter-increment: h1;
+    counter-reset: par;
+    margin-top: 3em;
+    &:first-child {
+      margin-top: 0em;
+    }
+  }
+  h2 {
+    display: inline;
+    font-weight: bold;
+    font-size: $base-size;
+    margin-bottom: -1em;
+    margin-top: 1.2em;
+  }
+  .references {
+    p {
+      &:before {
+        display: none;
+      }
+    }
+  }
+  p {
+    line-height: $line-height;
+    padding-bottom: 0.5em;
+    &:before {
+      counter-increment: par;
+      font-family: $font-head;
+      font-weight: 300;
+      content: "§" counter(h1) " ¶" counter(par);
+      float: left;
+      width: 7mm;
+      margin-left: -11mm;
+      text-align: right;
+      display: inline-block;
+      color: $tertiary;
+      font-size: 55%;
+      margin-top: 1mm;
+    }
+  }
+}
