@@ -1,0 +1,4 @@
+weasyprint
+pandoc-fignos
+pandoc-eqnos
+pandoc-tablenos

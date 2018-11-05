@@ -1,0 +1,13 @@
+dist: trusty
+sudo: false
+language: generic
+branches:
+  only:
+    - master
+addons:
+  apt_packages:
+    - pandoc
+install:
+  - pip install -r build/requirements.txt
+script:
+  - make
