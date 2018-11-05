@@ -9,6 +9,12 @@ install:
   - pip install -r build/requirements.txt
 script:
   - make
+before_deploy:
+  - rm -r build
+  - rm -r styles/*.scss
+  - rm .gitignore
+  - rm .travis.yml
+  - rm Makefile
 deploy:
   provider: pages
   github-token: $GITHUB_TOKEN
