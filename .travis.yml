@@ -8,8 +8,8 @@ before_install:
 install:
   - pip install -r build/requirements.txt
 script:
-  - make
-  - make.html
+  - make manuscript.pdf
+  - make index.html
 before_deploy:
   - rm -r build
   - rm -r styles/*.scss

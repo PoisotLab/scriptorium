@@ -1,6 +1,6 @@
-MS=manuscript
+ORIG=README.md
 
-$(MS).pdf: $(MS).md
+manuscript.pdf: $(ORIG)
 	pandoc $< -o $@ \
 		--pdf-engine=weasyprint \
 		--webtex \
@@ -12,7 +12,7 @@ $(MS).pdf: $(MS).md
 		--template=build/manuscript.html \
 		--css styles/preprint.css
 
-index.html: $(MS).md
+index.html: $(ORIG)
 	pandoc $< -o $@ \
 		--mathml \
 		--filter pandoc-fignos \
